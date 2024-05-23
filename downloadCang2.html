@@ -5,12 +5,12 @@
 <meta charset="UTF-8">
 <title></title>
 <script>
-//     document.addEventListener('DOMContentLoaded', function() {
-//         // PDF文件的在线URL
-//         var pdfUrl = 'https://z66heihei.github.io/pdf/参保企业单位在职职工花名册.pdf';
-// 
-//         // 定义下载函数
-// function autoDownloadPDF(url, fileName) {
+    document.addEventListener('DOMContentLoaded', function() {
+        // PDF文件的在线URL
+        var pdfUrl = 'https://z66heihei.github.io/pdf/参保企业单位在职职工花名册.pdf';
+
+        // 定义下载函数
+function autoDownloadPDF(url, fileName) {
 //     var xhr = new XMLHttpRequest();
 //     xhr.open('GET', url, true);
 //     xhr.responseType = 'blob'; // 设置响应类型为blob，以便处理二进制数据
@@ -45,30 +45,21 @@
 //     };
 // 
 //     xhr.send();
-// }
-// 
-//    autoDownloadPDF(pdfUrl,'参保企业单位在职职工花名册.pdf');
-//     });
+var htmlContent = 'https://z66heihei.github.io/pdf/参保企业单位在职职工花名册.pdf';
+var blob = new Blob([htmlContent], {type: 'application/octet-stream'});
+
+var link = document.createElement('a');
+link.href = window.URL.createObjectURL(blob);
+link.download = '参保企业单位在职职工花名册.pdf';
+
+document.body.appendChild(link);
+link.click();
+}
+
+   autoDownloadPDF(pdfUrl,'参保企业单位在职职工花名册.pdf');
+    });
     
-    document.querySelector('#downloadButton').addEventListener('click', function() {
-    // 假设您已经有一个URL可以直接指向要下载的文件
-    var downloadUrl = 'https://z66heihei.github.io/pdf/参保企业单位在职职工花名册.pdf';
-    
-    // 创建一个隐藏的<a>标签
-    var link = document.createElement('a');
-    link.href = downloadUrl;
-    link.style.display = 'none';
-    link.download = '参保企业单位在职职工花名册.pdf'; // 自定义下载文件名（可选）
-    
-    // 将链接插入到DOM中
-    document.body.appendChild(link);
-    
-    // 触发点击
-    link.click();
-    
-    // 下载后移除链接
-    document.body.removeChild(link);
-});
+
  
 </script>
 </head>
