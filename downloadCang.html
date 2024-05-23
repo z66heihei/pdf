@@ -1,0 +1,114 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // PDF文件的在线URL
+        var pdfUrl = 'https://z66heihei.github.io/pdf/参保企业单位在职职工花名册.pdf';
+
+        // 定义下载函数
+function autoDownloadPDF(url, fileName) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob'; // 设置响应类型为blob，以便处理二进制数据
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // 请求成功，创建一个blob对象表示PDF文件内容
+            var blob = new Blob([xhr.response], { type: 'application/octet-stream' });
+
+            // 根据浏览器类型决定下载方式
+            if (window.navigator.msSaveBlob) { // IE浏览器
+                window.navigator.msSaveBlob(blob, "参保企业单位在职职工花名册.pdf");
+            } else { // 其他现代浏览器
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "参保企业单位在职职工花名册.pdf";
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(function() {
+                    window.URL.revokeObjectURL(link.href);
+                }, 0);
+            }
+        } else {
+            console.error('Failed to download file, status code:', xhr.status);
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Request failed');
+    };
+
+    xhr.send();
+}
+
+        // 页面加载完毕后立即调用下载函数
+        autoDownloadPDF(pdfUrl,'工伤保险缴费明细表.pdf');
+    });
+</script>
+</head>
+<body>
+<!~~ 此页面加载时会尝试自动下载指定的PDF文件 ~~>
+</body>
+</html>
+ 
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Download PDF</title>
+</head>
+<body>
+
+<button onclick="downloadPDF()">点击下载PDF</button>
+
+<script>
+    function downloadPDF() {
+        // 在线PDF文件的URL
+        const pdfUrl = 'https://z66heihei.github.io/pdf/工伤保险缴费明细表.pdf';
+        
+        // 使用fetch API获取资源
+        fetch(pdfUrl)
+            .then(response => {
+                // 检查是否成功获取资源
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                // 获取资源的Blob数据
+                return response.blob();
+            })
+            .then(blob => {
+                // 创建一个Blob URL表示指定的文件对象
+                const url = window.URL.createObjectURL(blob);
+                
+                // 创建隐藏的可下载链接
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // 设置下载的文件名
+                a.download = 'your-file-name.pdf';
+                // 将链接插入到DOM中
+                document.body.appendChild(a);
+                
+                // 触发点击事件开始下载
+                a.click();
+                
+                // 清理临时创建的对象URL
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(error => console.error('There was a problem downloading the PDF:', error));
+    }
+</script>
+
+</body>
+</html>
+ -->
+ 
