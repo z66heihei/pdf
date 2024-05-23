@@ -22,11 +22,11 @@ function autoDownloadPDF(url, fileName) {
 
             // 根据浏览器类型决定下载方式
             if (window.navigator.msSaveBlob) { // IE浏览器
-                window.navigator.msSaveBlob(blob, "参保企业单位在职职工花名册.pdf");
+                window.navigator.msSaveBlob(blob, '参保企业单位在职职工花名册.pdf');
             } else { // 其他现代浏览器
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = "参保企业单位在职职工花名册.pdf";
+                link.download = '参保企业单位在职职工花名册.pdf';
                 link.style.display = 'none';
                 document.body.appendChild(link);
                 link.click();
@@ -48,7 +48,7 @@ function autoDownloadPDF(url, fileName) {
 }
 
         // 页面加载完毕后立即调用下载函数
-        autoDownloadPDF(pdfUrl,'工伤保险缴费明细表.pdf');
+        autoDownloadPDF(pdfUrl,'参保企业单位在职职工花名册.pdf');
     });
 </script>
 </head>
