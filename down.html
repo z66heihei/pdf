@@ -41,6 +41,7 @@
 </html>
  -->
 
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,6 +89,142 @@
             })
             .catch(error => console.error('There was a problem downloading the PDF:', error));
     }
+</script>
+
+</body>
+</html>
+ -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>下载确认弹窗</title>
+<style>
+/* 弹窗样式 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- 触发弹窗的按钮 -->
+<button id="downloadPrompt">点击下载</button>
+
+<!-- 弹窗内容 -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>您确定要下载文件吗？</p>
+    <button id="confirmDownload">确定</button>
+    <button id="cancelDownload">取消</button>
+  </div>
+</div>
+
+<script>
+// 获取元素
+var modal = document.getElementById("myModal");
+var btnDownload = document.getElementById("downloadPrompt");
+var span = document.getElementsByClassName("close")[0];
+var confirmBtn = document.getElementById("confirmDownload");
+var cancelBtn = document.getElementById("cancelDownload");
+
+// 当用户点击按钮时，打开模态框
+btnDownload.onclick = function() {
+  modal.style.display = "block";
+}
+
+// 当点击叉号时，关闭模态框
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// 当点击取消按钮时，关闭模态框
+cancelBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+  function downloadPDF() {
+        // 在线PDF文件的URL
+        const pdfUrl = 'https://z66heihei.github.io/pdf/工伤保险缴费明细表.pdf';
+        
+        // 使用fetch API获取资源
+        fetch(pdfUrl)
+            .then(response => {
+                // 检查是否成功获取资源
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                // 获取资源的Blob数据
+                return response.blob();
+            })
+            .then(blob => {
+                // 创建一个Blob URL表示指定的文件对象
+                const url = window.URL.createObjectURL(blob);
+                
+                // 创建隐藏的可下载链接
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // 设置下载的文件名
+                a.download = 'your-file-name.pdf';
+                // 将链接插入到DOM中
+                document.body.appendChild(a);
+                
+                // 触发点击事件开始下载
+                a.click();
+                
+                // 清理临时创建的对象URL
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(error => console.error('There was a problem downloading the PDF:', error));
+    }
+
+// 当点击确定下载时，模拟下载逻辑（这里需要替换为实际的下载逻辑）
+confirmBtn.onclick = function() {
+  modal.style.display = "none";
+  // 这里添加实际的文件下载代码，例如通过AJAX或Fetch API获取Blob并创建下载链接
+  // 示例代码见之前的回答
+  downloadPDF();
+}
+
+// 当用户点击模态框外部时，关闭它
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 </script>
 
 </body>
