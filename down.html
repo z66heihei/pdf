@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Blob自动下载示例</title>
+<meta charset="UTF-8">
+<title>自动下载PDF示例</title>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // PDF文件的在线URL
+        var pdfUrl = 'https://example.com/path/to/your.pdf';
+
+        // 定义下载函数
+        function autoDownloadPDF(url) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = pdfUrl.split('/').pop(); // 假设文件名为URL的最后一部分
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                })
+                .catch(error => console.error('Error downloading PDF:', error));
+        }
+
+        // 页面加载完毕后立即调用下载函数
+        autoDownloadPDF(pdfUrl);
+    });
+</script>
 </head>
 <body>
-
-<script>
-    // 示例：创建一个Blob对象表示一个文本文件内容
-    var content = "这是一个示例文本文件的内容";
-    var contentType = "text/plain;charset=utf-8"; // MIME类型
-    var blob = new Blob([content], {type: contentType});
-
-    // 创建隐藏的可下载链接
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    a.download = "example.txt"; // 设置下载文件名
-    document.body.appendChild(a);
-
-    // 触发点击事件实现自动下载
-    a.click();
-
-    // 清理
-    setTimeout(function() {
-        URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    }, 100); // 延迟清理以确保下载开始
-</script>
-
+<!-- 此页面加载时会尝试自动下载指定的PDF文件 -->
 </body>
 </html>
